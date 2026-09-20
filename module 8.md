@@ -1,4 +1,4 @@
-EXP NO:6 C PROGRAM PRINT THE LOWERCASE ENGLISH WORD CORRESPONDING TO THE NUMBER
+## EXP NO:6 C PROGRAM PRINT THE LOWERCASE ENGLISH WORD CORRESPONDING TO THE NUMBER
 Aim:
 To write a C program print the lowercase English word corresponding to the number
 Algorithm:
@@ -16,25 +16,38 @@ Algorithm:
  
 Program:
 
-//type your code here
-
-
+#include <stdio.h>
+``` 
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+ 
+    switch (n) {
+        case 1: printf("one\n"); break;
+        case 2: printf("two\n"); break;
+        case 3: printf("three\n"); break;
+        case 4: printf("four\n"); break;
+        case 5: printf("five\n"); break;
+        case 6: printf("six\n"); break;
+        case 7: printf("seven\n"); break;
+        case 8: printf("eight\n"); break;
+        case 9: printf("nine\n"); break;
+        default: printf("Greater than 9\n");
+    }
+ 
+    return 0;
+}
+```
 
 
 Output:
-
-
-//paste your output here
-
-
-
-
-
+<img width="900" height="214" alt="image" src="https://github.com/user-attachments/assets/aa2f674e-c591-46ae-b5f7-a21bad101e09" />
 
 Result:
 Thus, the program is verified successfully
  
-EXP NO:7 C PROGRAM TO PRINT TEN SPACE-SEPARATED INTEGERS     IN A SINGLE  LINE DENOTING THE FREQUENCY OF EACH DIGIT FROM 0 TO 3 .
+## EXP NO:7 C PROGRAM TO PRINT TEN SPACE-SEPARATED INTEGERS     IN A SINGLE  LINE DENOTING THE FREQUENCY OF EACH DIGIT FROM 0 TO 3 .
 Aim:
 To write a C program to print ten space-separated integers in a single line denoting the frequency of each digit from 0 to 3.
 Algorithm:
@@ -46,26 +59,40 @@ Algorithm:
 6.	End
  
 Program:
-
-//type your code here
-
-
-
-
+```
+#include <stdio.h>
+#include <string.h>
+ 
+int main() {
+    char a[50];
+    int i, j, c, h;
+ 
+    printf("Enter a string of digits: ");
+    scanf("%s", a);
+ 
+    for (h = 0; h <= 9; h++) {
+        c = 0;
+        for (j = 0; a[j] != '\0'; j++) {
+            if (a[j] - '0' == h)
+                c++;
+        }
+        printf("%d ", c);
+    }
+    printf("\n");
+ 
+    return 0;
+}
+```
 Output:
 
-
-//paste your output here
-
-
-
+<img width="900" height="214" alt="image" src="https://github.com/user-attachments/assets/a54fbf69-8cfc-4cc9-8772-d0a5615f5d2f" />
 
 
 
 Result:
 Thus, the program is verified successfully
 
-EXP NO:8 C PROGRAM TO PRINT ALL OF ITS PERMUTATIONS IN STRICT LEXICOGRAPHICAL ORDER.
+## EXP NO:8 C PROGRAM TO PRINT ALL OF ITS PERMUTATIONS IN STRICT LEXICOGRAPHICAL ORDER.
 Aim:
 To write a C program to print all of its permutations in strict lexicographical order.
 
@@ -84,25 +111,87 @@ Free the memory allocated for each string in s Free the memory allocated for s
  
 Program:
 
-//type your code here
-
-
-
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+int count = 0;
+ 
+int cmp(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+ 
+void swap(char *x, char *y) {
+    char t = *x;
+    *x = *y;
+    *y = t;
+}
+ 
+void permute(char *str, int l, int r, char **result) {
+    if (l == r) {
+        result[count] = malloc(strlen(str) + 1);
+        strcpy(result[count], str);
+        count++;
+    } else {
+        for (int i = l; i <= r; i++) {
+            swap(&str[l], &str[i]);
+            permute(str, l + 1, r, result);
+            swap(&str[l], &str[i]);
+        }
+    }
+}
+ 
+int factorial(int n) {
+    return (n <= 1) ? 1 : n * factorial(n - 1);
+}
+ 
+int main() {
+    int n;
+    printf("Enter number of strings: ");
+    scanf("%d", &n);
+ 
+    char **s = malloc(n * sizeof(char *));
+    for (int i = 0; i < n; i++) {
+        s[i] = malloc(50 * sizeof(char));
+        printf("Enter string %d: ", i + 1);
+        scanf("%s", s[i]);
+    }
+ 
+    for (int i = 0; i < n; i++) {
+        int len = strlen(s[i]);
+        int total = factorial(len);
+        char **result = malloc(total * sizeof(char *));
+        count = 0;
+        permute(s[i], 0, len - 1, result);
+        qsort(result, total, sizeof(char *), cmp);
+ 
+        printf("\nPermutations of %s:\n", s[i]);
+        for (int j = 0; j < total; j++) {
+            printf("%s\n", result[j]);
+            free(result[j]);
+        }
+        free(result);
+    }
+ 
+    for (int i = 0; i < n; i++) free(s[i]);
+    free(s);
+ 
+    return 0;
+}
+```
 
 Output:
 
 
-//paste your output here
-
-
-
+<img width="900" height="390" alt="image" src="https://github.com/user-attachments/assets/00e85b96-953f-428d-9fe1-a975bf7a2885" />
 
 
 
 Result:
 Thus, the program is verified successfully
  
-EXP NO:9 C PROGRAM PRINT A PATTERN OF NUMBERS FROM 1 TO N AS
+## EXP NO:9 C PROGRAM PRINT A PATTERN OF NUMBERS FROM 1 TO N AS
 SHOWN BELOW.
 Aim:
 To write a C program to print a pattern of numbers from 1 to n as shown below.
@@ -117,25 +206,45 @@ Algorithm:
  
 Program:
 
-//type your code here
-
+```
+#include <stdio.h>
+ 
+int minVal(int a, int b) {
+    return (a < b) ? a : b;
+}
+ 
+int main() {
+    int n, len, i, j, min;
+ 
+    printf("Enter n: ");
+    scanf("%d", &n);
+ 
+    len = n * 2 - 1;
+ 
+    for (i = 0; i < len; i++) {
+        for (j = 0; j < len; j++) {
+            min = minVal(minVal(i, j), minVal(len - 1 - i, len - 1 - j));
+            printf("%d ", n - min);
+        }
+        printf("\n");
+    }
+ 
+    return 0;
+}
+```
 
 
 
 Output:
 
 
-//paste your output here
-
-
-
-
+<img width="900" height="346" alt="image" src="https://github.com/user-attachments/assets/6a3abc61-69db-4cc3-8843-4e4471dbcd00" />
 
 
 Result:
 Thus, the program is verified successfully
 
-EXP NO:10 C PROGRAM TO FIND A SQUARE  OF NUMBER USING FUNCTION WITHOUT ARGUMENTS WITH RETURN TYPE
+## EXP NO:10 C PROGRAM TO FIND A SQUARE  OF NUMBER USING FUNCTION WITHOUT ARGUMENTS WITH RETURN TYPE
 
 Aim:
 
@@ -156,19 +265,29 @@ o	Call the square() function and display the result.
 
 Program:
 
-//type your code here
-
+```
+#include <stdio.h>
+ 
+int square() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+    return num * num;
+}
+ 
+int main() {
+    int result = square();
+    printf("Square of the number = %d\n", result);
+    return 0;
+}
+```
 
 
 
 Output:
 
 
-//paste your output here
-
-
-
-
+<img width="900" height="214" alt="image" src="https://github.com/user-attachments/assets/75c00420-d70f-46e4-ab4b-19a756dfdad2" />
 
 
 Result:
